@@ -1,0 +1,21 @@
+name: ArcanePVP
+version: ${project.version}
+main: com.arcanepvp.plugin.ArcanePVP
+api-version: 1.16
+authors: [ArcanePVP]
+description: Плагин для сервера Minecraft
+commands:
+  arcanepvp:
+    description: Основная команда плагина ArcanePVP
+    usage: /<command> [help|reload]
+    aliases: [apvp]
+    
+permissions:
+  arcanepvp.admin:
+    description: Доступ ко всем функциям плагина
+    default: op
+    children:
+      arcanepvp.reload: true
+  arcanepvp.reload:
+    description: Разрешение на перезагрузку конфигурации
+    default: op 

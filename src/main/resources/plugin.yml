@@ -1,0 +1,30 @@
+name: CustomX
+version: ${project.version}
+main: com.CustomX.plugin.CustomX
+api-version: 1.16
+authors: [GofMan3]
+description: Плагин зон и эффектов CustomX
+depend: [WorldEdit]
+commands:
+  cx:
+    description: Основная команда для управления зонами и эффектами
+    usage: /<command> [zones|zone|help|reload]
+    aliases: [customx, cx]
+  customx:
+    description: Основная команда плагина CustomX
+    usage: /<command> [help|reload]
+    aliases: [cx]
+    
+permissions:
+  CustomX.admin:
+    description: Доступ ко всем функциям плагина
+    default: op
+    children:
+      CustomX.reload: true
+      CustomX.zones.admin: true
+  CustomX.reload:
+    description: Разрешение на перезагрузку конфигурации
+    default: op
+  CustomX.zones.admin:
+    description: Разрешение на управление зонами
+    default: op 

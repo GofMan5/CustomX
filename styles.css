@@ -1,0 +1,782 @@
+/* Основные переменные */
+:root {
+    /* Цветовая палитра Эндер-темы (усиленная) */
+    --white: #f1f1f1;
+    --white-soft: #d8d8d8;
+    --black: #0a090e;
+    --black-soft: #12101a;
+    --true-black: #050408;
+    --shade: #1f1a2c;
+    --shade-light: #2d2444;
+    --accent: #9c59d1; /* Лавандовый - цвет эндермена (усиленный) */
+    --accent-hover: #a04ee9;
+    --accent-dark: #6a35a5;
+    --ender-purple: #9c59d1;
+    --ender-particle: #c976ff;
+    --ender-eye: #ff00ff;
+    --ender-teleport: #cb6ce6;
+    --end-stone: #e2e2a7;
+    --end-portal: #416189;
+    --danger: #ff3a6e;
+    
+    /* Размеры и отступы */
+    --border-radius: 8px;
+    --border-width: 2px;
+    --spacing-sm: 0.25rem;
+    --spacing-md: 0.5rem;
+    --spacing-lg: 1rem;
+    
+    /* Эффекты */
+    --transition-speed: 0.2s;
+    --box-shadow: 0 4px 15px rgba(156, 89, 209, 0.25);
+    --glow: 0 0 12px rgba(201, 118, 255, 0.7);
+    --intense-glow: 0 0 20px rgba(201, 118, 255, 0.9), 0 0 30px rgba(201, 118, 255, 0.4);
+}
+
+/* Базовые стили */
+body, html {
+    background-color: var(--black) !important;
+    color: var(--white);
+    transition: background-color var(--transition-speed) ease;
+    position: relative;
+    overflow-x: hidden;
+    font-family: 'Minecraft', 'Roboto', sans-serif;
+}
+
+/* Стилизация под шрифт Minecraft (если доступен) */
+@font-face {
+    font-family: 'Minecraft';
+    src: url('https://fonts.cdnfonts.com/css/minecraft-4') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Задний фон с эндер-текстурой */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(rgba(10, 9, 14, 0.98), rgba(10, 9, 14, 0.98)),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='42' height='58' viewBox='0 0 42 58'%3E%3Cpath fill='%239c59d1' fill-opacity='0.07' d='M0 0h42v58H0V0z'/%3E%3Cpath fill='%239c59d1' fill-opacity='0.07' d='M21 0v18h21v20H21v20H0V38h21V18H0V0h21z'/%3E%3C/svg%3E");
+    background-size: auto, 200px 200px;
+    pointer-events: none;
+    z-index: -2;
+}
+
+/* Улучшенные и более яркие анимированные частицы эндермена */
+body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Ccircle cx='2' cy='2' r='1.5' fill='%239c59d1' opacity='0.8'/%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6' viewBox='0 0 6 6'%3E%3Ccircle cx='3' cy='3' r='2' fill='%23c976ff' opacity='0.6'/%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='3' height='3' viewBox='0 0 3 3'%3E%3Ccircle cx='1.5' cy='1.5' r='1' fill='%23ff00ff' opacity='0.5'/%3E%3C/svg%3E");
+    background-size: 
+        120px 120px,
+        180px 180px,
+        150px 150px;
+    animation: particles 20s linear infinite;
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.7;
+}
+
+/* Большие редкие частицы телепортации эндермена */
+.ender-particle {
+    position: fixed;
+    width: 3px;
+    height: 3px;
+    background-color: var(--ender-particle);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 10;
+    opacity: 0;
+    box-shadow: 0 0 8px 2px var(--ender-particle);
+    animation: teleport 7s ease-in-out infinite;
+}
+
+@keyframes teleport {
+    0% {
+        opacity: 0;
+        transform: translate(0, 0) scale(0);
+    }
+    10% {
+        opacity: 0.9;
+        transform: translate(10px, -20px) scale(1.2);
+    }
+    20% {
+        opacity: 0.3;
+        transform: translate(30px, -10px) scale(0.8);
+    }
+    30% {
+        opacity: 0.9;
+        transform: translate(20px, 20px) scale(1.5);
+    }
+    40% {
+        opacity: 0.5;
+        transform: translate(-20px, 30px) scale(1);
+    }
+    50% {
+        opacity: 0.9;
+        transform: translate(-40px, -10px) scale(1.2);
+    }
+    60% {
+        opacity: 0.4;
+        transform: translate(-10px, -40px) scale(0.8);
+    }
+    70% {
+        opacity: 0.8;
+        transform: translate(30px, -30px) scale(1.3);
+    }
+    80% {
+        opacity: 0.5;
+        transform: translate(40px, 10px) scale(1);
+    }
+    90% {
+        opacity: 0.8;
+        transform: translate(10px, 40px) scale(1.1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(0, 0) scale(0);
+    }
+}
+
+/* Создаем 15 частиц с разными задержками */
+.particle-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+@keyframes particles {
+    0% {
+        background-position: 0% 0%, 0% 0%, 0% 0%;
+    }
+    25% {
+        background-position: 10% 20%, -5% 10%, 15% -5%;
+    }
+    50% {
+        background-position: 20% 0%, 15% -10%, -15% -15%;
+    }
+    75% {
+        background-position: 10% -20%, 20% -5%, -5% 15%;
+    }
+    100% {
+        background-position: 0% 0%, 0% 0%, 0% 0%;
+    }
+}
+
+/* Генератор частиц эндермена */
+@keyframes ender-particle-generator {
+    0%, 100% {
+        box-shadow: 0 0 0 0 transparent;
+    }
+    50% {
+        box-shadow: 0 0 30px 5px var(--ender-particle);
+    }
+}
+
+/* Карточки */
+.product-card, 
+.server-card,
+.select-server-card {
+    background: var(--black-soft) !important;
+    border: var(--border-width) solid var(--shade) !important;
+    border-radius: var(--border-radius);
+    transition: transform var(--transition-speed) ease, 
+                box-shadow var(--transition-speed) ease,
+                border-color var(--transition-speed) ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Эффект энергии эндера вокруг карточек */
+.product-card::before,
+.server-card::before,
+.select-server-card::before {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, 
+        var(--ender-purple), 
+        var(--ender-eye), 
+        var(--ender-particle), 
+        var(--ender-purple));
+    background-size: 400% 400%;
+    z-index: -1;
+    border-radius: calc(var(--border-radius) + 2px);
+    opacity: 0;
+    transition: opacity var(--transition-speed) ease;
+    animation: gradient-rotate 3s ease infinite;
+}
+
+@keyframes gradient-rotate {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Внутреннее свечение для карточек */
+.product-card::after,
+.server-card::after,
+.select-server-card::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(201, 118, 255, 0.15) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity var(--transition-speed) ease;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.product-card:hover::before,
+.server-card:hover::before,
+.select-server-card:hover::before {
+    opacity: 1;
+}
+
+.product-card:hover::after,
+.server-card:hover::after,
+.select-server-card:hover::after {
+    opacity: 1;
+    animation: pulse 2s infinite;
+}
+
+/* Улучшенные эффекты для карточек */
+.product-card:hover, 
+.server-card:hover,
+.select-server-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--intense-glow);
+    border-color: var(--ender-teleport) !important;
+    z-index: 2;
+}
+
+/* Вставляем частицы эндермена при наведении на карточки */
+.product-card:hover::before,
+.server-card:hover::before,
+.select-server-card:hover::before {
+    content: "";
+    opacity: 1;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+}
+
+/* Формы и модальные окна */
+.form-control, 
+.modal-content, 
+.bg-soft {
+    background-color: var(--black-soft) !important;
+    border-radius: var(--border-radius);
+    border-color: var(--shade) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content {
+    border-top: 3px solid var(--ender-purple) !important;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Эффект портала Края для модальных окон */
+.modal-content::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(90deg, 
+        var(--ender-purple), 
+        var(--ender-eye), 
+        var(--ender-particle), 
+        var(--ender-purple));
+    background-size: 300% 100%;
+    animation: gradient-shift 3s linear infinite;
+}
+
+@keyframes gradient-shift {
+    0% {
+        background-position: 0% 0%;
+    }
+    100% {
+        background-position: 300% 0%;
+    }
+}
+
+input, 
+.form-control,
+.text-black .text-muted {
+    border: var(--border-width) solid var(--shade) !important;
+    transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+    background-color: var(--black) !important;
+    color: var(--white) !important;
+}
+
+input:focus, 
+.form-control:focus {
+    border-color: var(--ender-purple) !important;
+    box-shadow: 0 0 0 0.2rem rgba(201, 118, 255, 0.3) !important;
+    outline: none;
+}
+
+/* Типографика */
+.text-black a:not(.btn), 
+.text-black h1, .text-black h2, .text-black h3, .text-black h4, .text-black h6,
+.text-black .h1, .text-black .h2, .text-black .h3, .text-black .h4, 
+.text-black .h5, .text-black .h6, 
+.text-black .display-1, .text-black .display-2, .text-black .display-3, .text-black .display-4,
+.title, .category, .item-price, .item-title, .modal-title, .label, label, 
+.input-group .form-control, .text-soft, .text-black, h4, p, .text-black h5 {
+    color: var(--white) !important;
+}
+
+h1, h2, h3, .h1, .h2, .h3 {
+    text-shadow: 0 0 10px rgba(201, 118, 255, 0.5);
+    letter-spacing: 1px;
+}
+
+/* Стилизация заголовков под Minecraft */
+h1, .h1 {
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* Выделение важных заголовков */
+h1, .h1, h2, .h2 {
+    position: relative;
+    display: inline-block;
+}
+
+h1::after, .h1::after, h2::after, .h2::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--ender-purple), var(--ender-eye), transparent);
+    transform: scaleX(0.8);
+    transform-origin: left;
+    opacity: 0.8;
+}
+
+/* Исключения для определенных элементов */
+h5.font-weight-bolder.mb-1.text-black,
+p.small.mb-0.text-uppercase.text-black {
+    color: var(--white) !important;
+}
+
+/* Корзина */
+.cart-cost {
+    color: var(--ender-eye) !important;
+    font-weight: bold;
+    text-shadow: 0 0 4px rgba(255, 0, 255, 0.7);
+}
+
+.cart-item-actions {
+    border: var(--border-width) solid var(--shade) !important;
+    border-radius: var(--border-radius);
+    background-color: var(--black) !important;
+}
+
+/* Эффект свечения глаз эндермена для цен */
+.item-price {
+    position: relative;
+    color: var(--ender-eye) !important;
+    font-weight: bold;
+    text-shadow: 0 0 5px rgba(255, 0, 255, 0.6);
+    transition: all 0.3s ease;
+}
+
+.item-price:hover {
+    text-shadow: 0 0 8px rgba(255, 0, 255, 0.9);
+}
+
+/* Иконки и кнопки */
+.mr-1, .mx-1 {
+    margin-right: var(--spacing-sm) !important;
+    color: var(--white) !important;
+    fill: var(--white) !important;
+}
+
+/* Кнопки в стиле эндермена */
+.btn-primary {
+    background-color: var(--accent) !important;
+    border-color: var(--accent) !important;
+    transition: all var(--transition-speed) ease;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    box-shadow: 0 0 5px rgba(156, 89, 209, 0.4);
+    text-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+}
+
+.btn-primary::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: all 0.6s ease;
+    z-index: -1;
+}
+
+/* Эффект телепортации для кнопок при наведении */
+.btn-primary:hover {
+    background-color: var(--accent-hover) !important;
+    border-color: var(--accent-hover) !important;
+    box-shadow: var(--glow);
+    transform: translateY(-2px);
+}
+
+.btn-primary:hover::before {
+    left: 100%;
+}
+
+/* Стилизация кнопок под Minecraft */
+.btn {
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    padding: 0.6rem 1.2rem;
+}
+
+/* Другие кнопки */
+.btn-secondary, .btn-outline-primary {
+    border-color: var(--accent) !important;
+    color: var(--accent) !important;
+    background-color: transparent !important;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover, .btn-outline-primary:hover {
+    background-color: var(--accent) !important;
+    color: var(--white) !important;
+    box-shadow: var(--glow);
+}
+
+/* Анимации для элементов с ховер-эффектом */
+a, button, .btn {
+    transition: all var(--transition-speed) ease;
+}
+
+a:not(.btn) {
+    color: var(--ender-particle) !important;
+    position: relative;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+/* Анимация подчеркивания для ссылок */
+a:not(.btn)::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background: linear-gradient(90deg, var(--ender-purple), var(--ender-eye));
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform 0.3s ease;
+}
+
+a:not(.btn):hover {
+    text-shadow: 0 0 5px rgba(201, 118, 255, 0.7);
+    color: var(--ender-eye) !important;
+}
+
+a:not(.btn):hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+/* Полосы прокрутки в стиле эндермена */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--black);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--shade-light);
+    border-radius: 4px;
+    border: 2px solid var(--black);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--ender-purple);
+    box-shadow: inset 0 0 6px rgba(201, 118, 255, 0.5);
+}
+
+/* Общий контейнер */
+.container, .container-fluid {
+    position: relative;
+    z-index: 1;
+}
+
+/* Навигация и шапка */
+.navbar {
+    background-color: var(--true-black) !important;
+    border-bottom: 1px solid var(--shade) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+.navbar-brand {
+    position: relative;
+}
+
+.navbar-brand img {
+    transition: filter var(--transition-speed) ease;
+}
+
+/* Эффект свечения для логотипа */
+.navbar-brand:hover img {
+    filter: drop-shadow(0 0 5px var(--ender-purple));
+    transform: scale(1.05);
+}
+
+/* Инструкция по покупке */
+.instruction-step {
+    position: relative;
+    padding: 25px;
+    background-color: var(--black-soft) !important;
+    border-radius: var(--border-radius);
+    border: var(--border-width) solid var(--shade) !important;
+    margin-bottom: 20px;
+    transition: all var(--transition-speed) ease;
+    overflow: hidden;
+}
+
+/* Номер шага инструкции в стиле эндер-портала */
+.instruction-step::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 40px;
+    background: var(--ender-purple);
+    border-bottom-right-radius: var(--border-radius);
+    z-index: 1;
+    transition: all 0.3s ease;
+}
+
+.instruction-step:hover::before {
+    background: var(--ender-eye);
+    box-shadow: 0 0 15px rgba(255, 0, 255, 0.5);
+}
+
+.instruction-step:hover {
+    border-color: var(--ender-purple) !important;
+    box-shadow: var(--box-shadow);
+    transform: translateY(-3px);
+}
+
+/* Эффект эндер-частиц при загрузке страницы */
+@keyframes ender-teleport {
+    0% {
+        opacity: 0;
+        transform: scale(0.92) translateY(10px);
+    }
+    70% {
+        opacity: 0.8;
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Применяем телепортацию к элементам */
+.product-card, .server-card, .modal-content, h1, h2, .instruction-step {
+    animation: ender-teleport 0.7s ease forwards;
+}
+
+/* Задержка анимации для разных элементов */
+.product-card:nth-child(1), .server-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+.product-card:nth-child(2), .server-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+.product-card:nth-child(3), .server-card:nth-child(3) {
+    animation-delay: 0.3s;
+}
+.product-card:nth-child(4), .server-card:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+/* Loader в стиле эндермена */
+.loader {
+    border: 3px solid var(--shade);
+    border-top: 3px solid var(--ender-purple);
+    border-right: 3px solid var(--ender-eye);
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+    box-shadow: 0 0 10px rgba(201, 118, 255, 0.3);
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* JavaScript для динамических частиц */
+.js-ender-particle {
+    position: fixed;
+    background-color: var(--ender-particle);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0;
+    box-shadow: 0 0 8px 2px var(--ender-particle);
+    animation: fade-out 2s forwards;
+}
+
+@keyframes fade-out {
+    0% {
+        opacity: 0.8;
+        transform: scale(0);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1.5);
+    }
+}
+
+/* Стилизация для эффекта эндер-сундука */
+.ender-chest-effect {
+    position: relative;
+    overflow: hidden;
+}
+
+.ender-chest-effect::before {
+    content: "";
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    width: 300%;
+    height: 300%;
+    background: radial-gradient(circle, rgba(201, 118, 255, 0.1) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.ender-chest-effect:hover::before {
+    opacity: 1;
+    animation: ender-chest-glow 2s infinite;
+}
+
+@keyframes ender-chest-glow {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+}
+
+/* Добавляем код для вставки HTML с частицами */
+/* Этот скрипт будет добавлять частицы динамически */
+/* Добавляем через CSS чтобы пользователь мог скопировать и вставить в свой код */
+.ender-particles-script {
+    display: none;
+}
+
+/* Стилизация для выпадающих меню */
+.dropdown-menu {
+    background-color: var(--black) !important;
+    border: var(--border-width) solid var(--shade) !important;
+    box-shadow: var(--box-shadow);
+}
+
+.dropdown-item {
+    color: var(--white) !important;
+}
+
+.dropdown-item:hover {
+    background-color: var(--shade) !important;
+    color: var(--ender-particle) !important;
+}
+
+/* Эффект "взгляда" эндермена при наведении на элементы */
+.enderman-gaze:hover {
+    position: relative;
+}
+
+.enderman-gaze:hover::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(255, 0, 255, 0.2) 0%, transparent 70%);
+    z-index: 1;
+    animation: ender-look 1s infinite alternate;
+}
+
+@keyframes ender-look {
+    0% {
+        opacity: 0.5;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0.8;
+        transform: scale(1.1);
+    }
+} 
